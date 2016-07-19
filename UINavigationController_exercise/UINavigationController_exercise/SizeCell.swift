@@ -10,15 +10,22 @@ import UIKit
 
 class SizeCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var sizeLabel: UILabel!
+   
+    @IBOutlet weak var sizeImage: UIImageView!
+    
+    var size: Size!{
+        didSet{
+            sizeLabel.text = size.pickSize
+            sizeImage.image = imageForSize(size.pickSize)
+        }
+
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func imageForSize(pickSize:String) -> UIImage? {
+        let imageName = "Size_pickSize"
+        return UIImage(named: imageName)
     }
-
+    
+    
 }

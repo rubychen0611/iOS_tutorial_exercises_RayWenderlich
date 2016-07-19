@@ -154,8 +154,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Clothes" id="uUC-2I-ECU">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Ily-n2-fPS"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="pfr-MW-J0u"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Ily-n2-fPS">
+                            <connections>
+                                <segue destination="r3f-oY-BeM" kind="unwind" unwindAction="cancelToGirlsViewController:" id="5OI-3o-sHw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="pfr-MW-J0u">
+                            <connections>
+                                <segue destination="r3f-oY-BeM" kind="unwind" identifier="saveToGirlsViewController" unwindAction="saveToGirlsViewController:" id="bF9-V1-bWy"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="clothesDetailLabel" destination="uAL-zk-Z4Y" id="cnn-Ze-9n7"/>
@@ -164,6 +172,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sDH-Rq-gLT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="r3f-oY-BeM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1579" y="305"/>
         </scene>
@@ -176,7 +185,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="Tb2-t6-wFR" customClass="SizeCell" customModule="UINavigationController_exercise" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sizeCell" rowHeight="80" id="Tb2-t6-wFR" customClass="SizeCell" customModule="UINavigationController_exercise" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tb2-t6-wFR" id="2Ro-mm-nPB">
@@ -203,6 +212,10 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="46t-ce-kL6" secondAttribute="trailing" constant="12" id="zQ3-mK-361"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="sizeImage" destination="46t-ce-kL6" id="z1F-p6-joz"/>
+                                    <outlet property="sizeLabel" destination="iW8-KP-lVb" id="Sk9-59-8Xp"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

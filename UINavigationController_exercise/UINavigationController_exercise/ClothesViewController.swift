@@ -30,7 +30,9 @@ class ClothesViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         nameTextField.becomeFirstResponder()
     }
-
-    
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "saveToGirlsViewController"{
+            girl = Girl(name: nameTextField.text, clothes: clothes)
+        }
+    }
 }

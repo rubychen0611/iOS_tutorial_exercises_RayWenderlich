@@ -12,8 +12,15 @@ struct Girl {
     var name:String?
     var clothes:String?
     
+    
     init(name:String?,clothes:String?){
         self.name = name
         self.clothes = clothes
+    }
+}
+struct Size {
+    var pickSize:String
+    init(pickSize:String){
+        self.pickSize = pickSize
     }
 }
