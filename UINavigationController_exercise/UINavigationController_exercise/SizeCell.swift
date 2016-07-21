@@ -19,13 +19,9 @@ class SizeCell: UITableViewCell {
             sizeLabel.text = size.pickSize
             sizeImage.image = imageForSize(size.pickSize)
         }
-
     }
     
     func imageForSize(pickSize:String) -> UIImage? {
-        let imageName = "Size_pickSize"
-        return UIImage(named: imageName)
+        return UIImage(named: pickSize)
     }
-    
-    
 }

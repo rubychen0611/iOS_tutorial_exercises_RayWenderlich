@@ -27,12 +27,30 @@ class ClothesViewController: UITableViewController {
             sizeDetailLabel?.text = size
         }
     }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         nameTextField.becomeFirstResponder()
     }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "saveToGirlsViewController"{
             girl = Girl(name: nameTextField.text, clothes: clothes)
         }
+        if segue.identifier == "toClothesPick" {
+            if let clothesPickViewController = segue.destinationViewController as? ClothesPickViewController {
+                clothesPickViewController.selectedClothes = clothes
+            }
+        }
     }
-}
+    
+    //Unwind segue
+    @IBAction func unwindWithSelectedClothes(segue:UIStoryboardSegue){
+        if let clothesPickViewController = segue.sourceViewController as? ClothesPickViewController,selectedClothes = clothesPickViewController.selectedClothes {
+            clothes = selectedClothes
+        }
+    }
+    @IBAction func cancelToClothesViewController(segue:UIStoryboardSegue){
+        
+    }
+    
+   }

@@ -62,7 +62,14 @@ class ClothesPickViewController: UITableViewController {
         cell?.accessoryType = .Checkmark
         
     }
-    
-    
-   
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "saveSelectedClothes"{
+            if let cell = sender as? UITableViewCell {
+                let indexPath = tableView.indexPathForCell(cell)
+                if let index = indexPath?.row {
+                    selectedClothes = clothes[index]
+                }
+            }
+        }
+     }
 }

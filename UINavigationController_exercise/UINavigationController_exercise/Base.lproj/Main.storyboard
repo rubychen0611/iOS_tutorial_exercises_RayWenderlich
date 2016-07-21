@@ -111,7 +111,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="HUr-pl-uKe" kind="push" identifier="toClothesPick" id="Qd2-Xu-QGL"/>
+                                            <segue destination="HUr-pl-uKe" kind="push" id="UhM-9E-Wa6"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -185,31 +185,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sizeCell" rowHeight="80" id="Tb2-t6-wFR" customClass="SizeCell" customModule="UINavigationController_exercise" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SizeCell" rowHeight="80" id="Tb2-t6-wFR" customClass="SizeCell" customModule="UINavigationController_exercise" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tb2-t6-wFR" id="2Ro-mm-nPB">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iW8-KP-lVb" userLabel="sizeLabel">
-                                            <rect key="frame" x="20" y="20" width="42" height="39"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iW8-KP-lVb" userLabel="sizeLabel">
+                                            <rect key="frame" x="30" y="12" width="42" height="59"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="46t-ce-kL6" userLabel="sizeImage">
-                                            <rect key="frame" x="200" y="20" width="100" height="39"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46t-ce-kL6" userLabel="sizeImage">
+                                            <rect key="frame" x="191" y="8" width="85" height="63"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="46t-ce-kL6" firstAttribute="top" secondItem="2Ro-mm-nPB" secondAttribute="topMargin" constant="12" id="3II-WK-Ihv"/>
-                                        <constraint firstItem="iW8-KP-lVb" firstAttribute="leading" secondItem="2Ro-mm-nPB" secondAttribute="leadingMargin" constant="12" id="B4v-Nt-Lsj"/>
-                                        <constraint firstItem="iW8-KP-lVb" firstAttribute="top" secondItem="2Ro-mm-nPB" secondAttribute="topMargin" constant="12" id="IPD-b9-tyA"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="46t-ce-kL6" secondAttribute="bottom" constant="12" id="Mr2-09-0Fz"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="iW8-KP-lVb" secondAttribute="bottom" constant="12" id="PFU-Wj-Id1"/>
-                                        <constraint firstItem="46t-ce-kL6" firstAttribute="leading" secondItem="iW8-KP-lVb" secondAttribute="trailing" constant="138" id="YxK-xD-sao"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="46t-ce-kL6" secondAttribute="trailing" constant="12" id="zQ3-mK-361"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="46t-ce-kL6" secondAttribute="bottom" id="4Ij-jR-cgd"/>
+                                        <constraint firstAttribute="topMargin" secondItem="46t-ce-kL6" secondAttribute="top" id="89h-VA-1t2"/>
+                                        <constraint firstItem="iW8-KP-lVb" firstAttribute="top" secondItem="2Ro-mm-nPB" secondAttribute="topMargin" constant="4" id="9BF-q6-684"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="iW8-KP-lVb" secondAttribute="bottom" id="SwH-73-5xI"/>
+                                        <constraint firstItem="iW8-KP-lVb" firstAttribute="leading" secondItem="2Ro-mm-nPB" secondAttribute="leadingMargin" constant="22" id="Uhz-en-gHy"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="46t-ce-kL6" secondAttribute="trailing" constant="36" id="fre-vm-Wcj"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -223,16 +222,23 @@
                             <outlet property="delegate" destination="rLH-Sv-wEW" id="Wox-wE-N2M"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="aDc-0W-zrk"/>
+                    <navigationItem key="navigationItem" id="aDc-0W-zrk">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="O2Y-Qu-2ju">
+                            <connections>
+                                <segue destination="eWQ-Zn-cg1" kind="unwind" unwindAction="cancelToClothesViewController:" id="M3O-na-ZYN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8TE-bH-NWo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="eWQ-Zn-cg1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1579" y="1202"/>
+            <point key="canvasLocation" x="1553" y="1076"/>
         </scene>
         <!--ClothesPickViewController-->
         <scene sceneID="g2c-F0-bFT">
             <objects>
-                <tableViewController title="ClothesPickViewController" id="HUr-pl-uKe" sceneMemberID="viewController">
+                <tableViewController title="ClothesPickViewController" id="HUr-pl-uKe" customClass="ClothesPickViewController" customModule="UINavigationController_exercise" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hjQ-Hi-BCa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -245,6 +251,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="CAn-Fz-W2a" kind="unwind" identifier="saveSelectedClothes" unwindAction="unwindWithSelectedClothes:" id="DdH-mk-LTj"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -255,6 +264,7 @@
                     <navigationItem key="navigationItem" id="7ei-5s-CEG"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OUg-Uq-p99" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="CAn-Fz-W2a" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1097" y="1068"/>
         </scene>
