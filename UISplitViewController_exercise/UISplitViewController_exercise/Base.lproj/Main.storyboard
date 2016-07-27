@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="cwy-R4-hT4">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Detail View Controller-->
+        <scene sceneID="4rE-bJ-XHT">
+            <objects>
+                <viewController id="jjx-v1-msN" customClass="DetailViewController" customModule="UISplitViewController_exercise" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AVJ-lW-vAT"/>
+                        <viewControllerLayoutGuide type="bottom" id="hFJ-xd-uvw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bLn-kV-2Xf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="h6n-Mx-Xsd">
+                                <rect key="frame" x="40" y="67" width="240" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="heartImage" destination="h6n-Mx-Xsd" id="xwl-f4-ISs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c0i-Gb-HED" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="93" y="604"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="xA6-2N-PYk">
+            <objects>
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="w0n-1S-01g" customClass="MasterViewController" customModule="UISplitViewController_exercise" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xS3-uf-A9u">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myCell" id="uDc-97-6gm">
+                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uDc-97-6gm" id="Ek4-jj-n1T">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="w0n-1S-01g" id="Ybt-ob-W0g"/>
+                            <outlet property="delegate" destination="w0n-1S-01g" id="6rq-rO-gLI"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="3jZ-lI-j4o"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JK8-qZ-RLV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="633" y="-25"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2Sp-sr-Fx0">
+            <objects>
+                <navigationController id="4yP-jP-vaM" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OEF-ez-wFW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="w0n-1S-01g" kind="relationship" relationship="rootViewController" id="aoy-bV-DU5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mua-nY-2AW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="93" y="-25"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="W4d-w9-hc9">
+            <objects>
+                <splitViewController id="cwy-R4-hT4" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="4yP-jP-vaM" kind="relationship" relationship="masterViewController" id="Ap3-ta-CfK"/>
+                        <segue destination="jjx-v1-msN" kind="relationship" relationship="detailViewController" id="oJc-by-xgA"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WOH-cG-hl4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-447" y="290"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="heart" width="261" height="227"/>
+    </resources>
+</document>
