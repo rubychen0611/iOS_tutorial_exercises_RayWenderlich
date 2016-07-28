@@ -41,6 +41,7 @@ class MasterViewController: UITableViewController {
         self.hearts.append(Heart(name: "heartTwo"))
         self.hearts.append(Heart(name: "heartThree"))
     }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedHeart = hearts[indexPath.row]
         delegate?.selectHeart(selectedHeart)

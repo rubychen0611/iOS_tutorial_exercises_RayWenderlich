@@ -21,10 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationController
         let masterViewController = letNavController.topViewController as! MasterViewController //topView controller on the stack
         let detailViewController = splitViewController.viewControllers.last as! DetailViewController
-        
-        masterViewController.delegate = detailViewController
         let firstHeart = masterViewController.hearts.first
         detailViewController.heart = firstHeart
+        masterViewController.delegate = detailViewController
+       
         return true
     }
 

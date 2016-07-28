@@ -35,6 +35,7 @@ class DetailViewController: UIViewController {
     }
     
 }
+
 extension DetailViewController:selectionDelegate {
     func selectHeart(newHeart: Heart) {
         heart = newHeart
