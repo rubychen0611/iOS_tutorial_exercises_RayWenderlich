@@ -12,11 +12,21 @@ class DetailViewController: UIViewController {
     
 
     @IBOutlet weak var heartImage: UIImageView!
+    @IBOutlet weak var heartLabel: UILabel!
     
+    var heart:Heart!{
+        didSet(newHeart){
+            self.refreshUI()
+        }
+    }
+    func refreshUI(){
+        heartLabel?.text = heart.name
+        heartImage?.image = UIImage(named: heart.name)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        refreshUI()
+    // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,15 +34,9 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+}
+extension DetailViewController:selectionDelegate {
+    func selectHeart(newHeart: Heart) {
+        heart = newHeart
     }
-    */
-
 }

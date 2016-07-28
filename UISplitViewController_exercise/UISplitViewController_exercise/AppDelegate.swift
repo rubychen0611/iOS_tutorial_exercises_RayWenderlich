@@ -16,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let splitViewController = self.window!.rootViewController as! UISplitViewController
+        let letNavController = splitViewController.viewControllers.first as!
+        UINavigationController
+        let masterViewController = letNavController.topViewController as! MasterViewController //topView controller on the stack
+        let detailViewController = splitViewController.viewControllers.last as! DetailViewController
+        
+        masterViewController.delegate = detailViewController
+        let firstHeart = masterViewController.hearts.first
+        detailViewController.heart = firstHeart
         return true
     }
 

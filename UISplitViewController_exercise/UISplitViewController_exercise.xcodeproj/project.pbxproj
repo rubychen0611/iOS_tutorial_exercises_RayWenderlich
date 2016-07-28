@@ -15,6 +15,7 @@
 		E07169231D487AD800D43EC2 /* UISplitViewController_exerciseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07169221D487AD800D43EC2 /* UISplitViewController_exerciseUITests.swift */; };
 		E07169311D487E7000D43EC2 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07169301D487E7000D43EC2 /* MasterViewController.swift */; };
 		E07169331D489EDC00D43EC2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07169321D489EDB00D43EC2 /* DetailViewController.swift */; };
+		E07169351D49AB4600D43EC2 /* Hearts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07169341D49AB4600D43EC2 /* Hearts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		E07169241D487AD800D43EC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E07169301D487E7000D43EC2 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		E07169321D489EDB00D43EC2 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E07169341D49AB4600D43EC2 /* Hearts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				E07169091D487AD800D43EC2 /* Assets.xcassets */,
 				E07169301D487E7000D43EC2 /* MasterViewController.swift */,
 				E07169321D489EDB00D43EC2 /* DetailViewController.swift */,
+				E07169341D49AB4600D43EC2 /* Hearts.swift */,
 				E071690B1D487AD800D43EC2 /* LaunchScreen.storyboard */,
 				E071690E1D487AD800D43EC2 /* Info.plist */,
 			);
@@ -261,6 +264,7 @@
 			files = (
 				E07169031D487AD800D43EC2 /* AppDelegate.swift in Sources */,
 				E07169311D487E7000D43EC2 /* MasterViewController.swift in Sources */,
+				E07169351D49AB4600D43EC2 /* Hearts.swift in Sources */,
 				E07169331D489EDC00D43EC2 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

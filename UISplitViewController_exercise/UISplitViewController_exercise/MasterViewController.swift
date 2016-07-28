@@ -7,22 +7,17 @@
 //
 
 import UIKit
+protocol selectionDelegate:class {
+    func selectHeart(newHeart:Heart)
+}
+
 
 class MasterViewController: UITableViewController {
+    var hearts = [Heart]()
+    weak var delegate:selectionDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -30,15 +25,29 @@ class MasterViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 5
+        return hearts.count
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("myCell", forIndexPath: indexPath)
-        cell.textLabel?.text = "HeartLove"
+        let heart = self.hearts[indexPath.row]
+        cell.textLabel?.text = heart.name
         return cell
+    }
+    
+    required init?(coder aDecoder:NSCoder){
+        super.init(coder: aDecoder)
+        self.hearts.append(Heart(name: "heartOne"))
+        self.hearts.append(Heart(name: "heartTwo"))
+        self.hearts.append(Heart(name: "heartThree"))
+    }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedHeart = hearts[indexPath.row]
+        delegate?.selectHeart(selectedHeart)
+        if let detailViewController = self.delegate as? DetailViewController
+        {
+            splitViewController?.showDetailViewController(detailViewController, sender: nil)
+        }
     }
     
 

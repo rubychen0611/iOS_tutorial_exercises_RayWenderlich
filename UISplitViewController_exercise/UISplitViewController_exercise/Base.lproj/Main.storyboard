@@ -17,14 +17,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="heart" translatesAutoresizingMaskIntoConstraints="NO" id="h6n-Mx-Xsd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h6n-Mx-Xsd">
                                 <rect key="frame" x="40" y="67" width="240" height="128"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sT7-az-Pon">
+                                <rect key="frame" x="47" y="224" width="199" height="59"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="heartImage" destination="h6n-Mx-Xsd" id="xwl-f4-ISs"/>
+                        <outlet property="heartImage" destination="h6n-Mx-Xsd" id="Dy1-l4-2Qz"/>
+                        <outlet property="heartLabel" destination="sT7-az-Pon" id="Oqb-oZ-ygn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c0i-Gb-HED" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -90,7 +97,4 @@
             <point key="canvasLocation" x="-447" y="290"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="heart" width="261" height="227"/>
-    </resources>
 </document>
