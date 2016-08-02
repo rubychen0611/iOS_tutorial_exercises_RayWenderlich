@@ -1,0 +1,36 @@
+//
+//  Adaptive_Layout_exerciseUITests.swift
+//  Adaptive Layout_exerciseUITests
+//
+//  Created by Magenta Qin on 16/8/1.
+//  Copyright © 2016年 Magenta Qin. All rights reserved.
+//
+
+import XCTest
+
+class Adaptive_Layout_exerciseUITests: XCTestCase {
+        
+    override func setUp() {
+        super.setUp()
+        
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        // In UI tests it is usually best to stop immediately when a failure occurs.
+        continueAfterFailure = false
+        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+        XCUIApplication().launch()
+
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    func testExample() {
+        // Use recording to get started writing UI tests.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+}
