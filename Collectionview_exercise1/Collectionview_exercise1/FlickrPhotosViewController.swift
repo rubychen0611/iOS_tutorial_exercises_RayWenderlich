@@ -34,8 +34,12 @@ class FlickrPhotosViewController: UICollectionViewController {
         return searches[section].searchResults.count
     }
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCell", forIndexPath: indexPath)
+//        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCell", forIndexPath: indexPath)
+//        cell.backgroundColor = UIColor.blackColor()
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCell", forIndexPath: indexPath) as! FlickrPhotoCell
+        let photo = photoForIndexPath(indexPath)
         cell.backgroundColor = UIColor.blackColor()
+        cell.imageView.image = photo.thumbnail
         return cell
     }
 }
