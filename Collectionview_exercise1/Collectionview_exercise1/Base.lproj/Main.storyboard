@@ -15,13 +15,13 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QRW-jG-qvd">
                             <size key="itemSize" width="200" height="200"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="headerReferenceSize" width="50" height="90"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FlickrCell" id="ctM-Fd-sIz" customClass="FlickrPhotoCell" customModule="Collectionview_exercise1" customModuleProvider="target">
-                                <rect key="frame" x="60" y="64" width="200" height="200"/>
+                                <rect key="frame" x="60" y="154" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -45,6 +45,26 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FlickrPhotoHeaderView" id="7lo-ik-hD6" customClass="FlickrPhotoHeaderView" customModule="Collectionview_exercise1" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="64" width="320" height="90"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uCV-cK-rjY">
+                                    <rect key="frame" x="121" y="25" width="78" height="39"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="uCV-cK-rjY" firstAttribute="centerY" secondItem="7lo-ik-hD6" secondAttribute="centerY" id="XUh-35-cqp"/>
+                                <constraint firstItem="uCV-cK-rjY" firstAttribute="centerX" secondItem="7lo-ik-hD6" secondAttribute="centerX" id="oGp-n7-7LX"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="label" destination="uCV-cK-rjY" id="W9e-mj-hf8"/>
+                            </connections>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="h7R-YI-cU0" id="UHZ-23-1ej"/>
                             <outlet property="delegate" destination="h7R-YI-cU0" id="Gix-yB-Sw3"/>
@@ -61,6 +81,11 @@
                                 <outlet property="delegate" destination="h7R-YI-cU0" id="n6S-Pw-ZCn"/>
                             </connections>
                         </textField>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Ck9-hr-fMd">
+                            <connections>
+                                <action selector="share:" destination="h7R-YI-cU0" id="pGZ-Ya-hQg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="textField" destination="wL5-wE-MNe" id="CEt-t7-i9I"/>
