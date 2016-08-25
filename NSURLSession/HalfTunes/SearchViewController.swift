@@ -102,19 +102,42 @@ class SearchViewController: UIViewController {
     }
   }
   
-  // Called when the Pause button for a track is tapped
+  //暂停下载
   func pauseDownload(track: Track) {
-    // TODO
+    if let urlString = track.previewUrl,download = activeDownloads[urlString]{
+        if download.isDownLoading {
+            download.downloadTask?.cancelByProducingResumeData({ (data) in
+                if data != nil {
+                    download.resumeData = data
+                }
+            })
+            download.isDownLoading = false
+        }
+    }
   }
-  
-  // Called when the Cancel button for a track is tapped
+    
+  //取消下载
   func cancelDownload(track: Track) {
-    // TODO
+    if let urlString = track.previewUrl, download = activeDownloads[urlString]{
+        download.downloadTask?.cancel()
+        activeDownloads[urlString] = nil
+    }
   }
   
-  // Called when the Resume button for a track is tapped
-  func resumeDownload(track: Track) {
-    // TODO
+  //继续下载
+    func resumeDownload(track: Track) {
+    if let urlString = track.previewUrl, download = activeDownloads[urlString]{
+        //检查是否暂停过。如果暂停过，就在resume data的基础上，继续下载；否则，就重新创建一个download task
+        if let resumeData = download.resumeData {
+            download.downloadTask = downloadsSession.downloadTaskWithResumeData(resumeData)
+            download.downloadTask!.resume()
+            download.isDownLoading = true
+        } else if let url = NSURL(string: download.url) {
+            download.downloadTask = downloadsSession.downloadTaskWithURL(url)
+            download.downloadTask!.resume()
+            download.isDownLoading = true
+        }
+    }
   }
   
    // This method attempts to play the local file (if it exists) when the cell is tapped
@@ -149,6 +172,7 @@ class SearchViewController: UIViewController {
     }
     return false
   }
+    //计算歌曲的index
     func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Int? {
         if let url = downloadTask.originalRequest?.URL?.absoluteString {
             for(index,track) in searchResults.enumerate() {
@@ -262,7 +286,6 @@ extension SearchViewController: UITableViewDataSource {
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("TrackCell", forIndexPath: indexPath) as!TrackCell
-    
     // Delegate cell button tap events to this view controller
     cell.delegate = self
     
@@ -272,10 +295,35 @@ extension SearchViewController: UITableViewDataSource {
     cell.titleLabel.text = track.name
     cell.artistLabel.text = track.artist
 
-    // If the track is already downloaded, enable cell selection and hide the Download button
+    
+    //downloaded存储已经下载到本地的文件
     let downloaded = localFileExistsForTrack(track)
+    
+    var showDownloadControls = false
+    //如果歌曲正在下载，就将showDownloadControls设置为true
+    if let download = activeDownloads[track.previewUrl!]{
+        showDownloadControls = true
+        
+        cell.progressView.progress = download.progress
+        cell.progressLabel.text = (download.isDownLoading) ? "Downloading..." : "Paused"
+        
+        //pauseButton在“Pause”和“Resume”之间切换。
+        let title = (download.isDownLoading) ? "Pause" : "Resume"
+        cell.pauseButton.setTitle(title, forState: .Normal)
+    }
+    //如果文件没有在下载时，就隐藏progressView和progressLabel
+    cell.progressView.hidden = !showDownloadControls
+    cell.progressLabel.hidden = !showDownloadControls
+   
+    //cell的selectionStyle相应地做出改变
     cell.selectionStyle = downloaded ? UITableViewCellSelectionStyle.Gray : UITableViewCellSelectionStyle.None
-    cell.downloadButton.hidden = downloaded
+    
+    //如果文件下载完成或正在下载，隐藏downloadButton
+    cell.downloadButton.hidden = downloaded || showDownloadControls
+    
+    //只有在下载时，这两个button才会出现
+    cell.pauseButton.hidden = !showDownloadControls
+    cell.cancelButton.hidden = !showDownloadControls
     
     return cell
   }
@@ -299,9 +347,61 @@ extension SearchViewController: UITableViewDelegate {
 
 //MARK: NSURLSessionDownloadDelegate
 extension SearchViewController: NSURLSessionDownloadDelegate {
+    
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        
+        //将请求路径保存到永久本地路径中。
         if let originalURL = downloadTask.originalRequest?.URL?.absoluteString, destinationURL = localFilePathForUrl(originalURL) {
             print(destinationURL)
+            
+            //在开始复制前，清理临时文件位置上的item
+            let fileManager = NSFileManager.defaultManager()
+            do {
+                try fileManager.removeItemAtURL(destinationURL)
+            } catch {
+                
+            }
+            //将下载好的文件从临时文件位置复制到目的地文件路径
+            do {
+                try fileManager.copyItemAtURL(location, toURL: destinationURL)
+            } catch let error as NSError {
+                print("Could't copy file to disk: \(error.localizedDescription)")
+            }
+        }
+        
+        //将activeDownloads数组里相应的download移除
+        if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            activeDownloads[url] = nil
+            
+            //更新table view
+            if let trackIndex = trackIndexForDownloadTask(downloadTask) {
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: trackIndex,inSection: 0)], withRowAnimation: .None)
+                })
+            }
+        }
+    }
+   //查看下载进度
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        
+        //找到正在下载的download
+        if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString, download = activeDownloads[downloadUrl]{
+            
+            //计算下载进度
+            download.progress = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
+            
+            //计算下载文件大小。NSByteCountFormatter能将字节值转换为可读字符串
+            let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
+            
+            //更新cell
+            if let trackIndex = trackIndexForDownloadTask(downloadTask), let trackCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0))as? TrackCell {
+                dispatch_async(dispatch_get_main_queue(), { 
+                    trackCell.progressView.progress = download.progress
+                    trackCell.progressLabel.text = String(format: "%.1f%% of %@", download.progress * 100, totalSize)
+                })
+            
+            }
+            
         }
     }
 }
