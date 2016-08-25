@@ -9,7 +9,16 @@
 import UIKit
 import MediaPlayer
 
+//URL和Download之间的映射
+var activeDownloads = [String:Download]()
+
+
 class SearchViewController: UIViewController {
+
+  //创建一个NSURLSession实例，并对它进行初始化
+  let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+  //声明变量dataTask，以便向iTunes Search web service发出HTTP GET请求
+  var dataTask: NSURLSessionDataTask?
 
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var searchBar: UISearchBar!
@@ -21,12 +30,17 @@ class SearchViewController: UIViewController {
     return recognizer
   }()
     
+    lazy var downloadsSession: NSURLSession = {
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        return session
+    }()
     
-  // MARK: View controller methods
-  
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.tableFooterView = UIView()
+    
   }
   
   override func didReceiveMemoryWarning() {
@@ -79,7 +93,13 @@ class SearchViewController: UIViewController {
   
   // Called when the Download button for a track is tapped
   func startDownload(track: Track) {
-    // TODO
+    if let urlString = track.previewUrl, url = NSURL(string:urlString){
+        let download = Download(url: urlString)
+        download.downloadTask = downloadsSession.downloadTaskWithURL(url)
+        download.downloadTask!.resume()
+        download.isDownLoading = true
+        activeDownloads[download.url] = download
+    }
   }
   
   // Called when the Pause button for a track is tapped
@@ -129,6 +149,16 @@ class SearchViewController: UIViewController {
     }
     return false
   }
+    func trackIndexForDownloadTask(downloadTask: NSURLSessionDownloadTask) -> Int? {
+        if let url = downloadTask.originalRequest?.URL?.absoluteString {
+            for(index,track) in searchResults.enumerate() {
+                if url == track.previewUrl! {
+                    return index
+                }
+            }
+        }
+        return nil
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -137,8 +167,41 @@ extension SearchViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
     // Dimiss the keyboard
     dismissKeyboard()
-    
-    // TODO
+    if !searchBar.text!.isEmpty {
+        //检查data task是否已经初始化
+        if dataTask != nil {
+            dataTask?.cancel()
+        }
+        //让network activity indicator显示在状态栏上，告诉用户正在进行网络请求
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        //确保传给url的字符串被正确转义
+        let expectedCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        let searchTerm = searchBar.text!.stringByAddingPercentEncodingWithAllowedCharacters(expectedCharSet)!
+        
+        //把被转义的字符串作为GET参数添加到iTunes Search API url里
+        let url = NSURL(string: "https://itunes.apple.com/search?media=music&entity=song&term=\(searchTerm)")
+        
+        //初始化dataTask来应对HTTP GET请求
+        dataTask = defaultSession.dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+            
+            //当task完成时，触发UI在主线程进行更新，并隐藏activity indicator
+            dispatch_async(dispatch_get_main_queue(), { 
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            })
+            
+            //如果HTTP请求成功，调用updateSearchResults()方法，将response JSON NSData解析为歌曲，并更新table view
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let httpResponse = response as? NSHTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    self.updateSearchResults(data)
+                }
+            }
+        })
+        //data task默认是处于suspended状态的，需手动调用resume()方法，开始请求
+       dataTask?.resume()
+    }
   }
     
   func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
@@ -234,3 +297,11 @@ extension SearchViewController: UITableViewDelegate {
   }
 }
 
+//MARK: NSURLSessionDownloadDelegate
+extension SearchViewController: NSURLSessionDownloadDelegate {
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        if let originalURL = downloadTask.originalRequest?.URL?.absoluteString, destinationURL = localFilePathForUrl(originalURL) {
+            print(destinationURL)
+        }
+    }
+}

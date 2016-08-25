@@ -14,6 +14,7 @@
 		D9EF8FEA1B53FD6900EFC4B6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF8FE81B53FD6900EFC4B6 /* SearchViewController.swift */; };
 		D9EF8FF11B53FDCB00EFC4B6 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF8FED1B53FDCB00EFC4B6 /* TrackCell.swift */; };
 		D9EF8FF21B53FDCB00EFC4B6 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF8FEE1B53FDCB00EFC4B6 /* Track.swift */; };
+		E01DADD51D6E7F9B00AC74C7 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01DADD41D6E7F9B00AC74C7 /* Download.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		D9EF8FE81B53FD6900EFC4B6 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D9EF8FED1B53FDCB00EFC4B6 /* TrackCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 		D9EF8FEE1B53FDCB00EFC4B6 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		E01DADD41D6E7F9B00AC74C7 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				D92117481B596DFE008DAD44 /* Cells */,
 				D92117491B596E03008DAD44 /* Data Objects */,
 				D9EF8FE81B53FD6900EFC4B6 /* SearchViewController.swift */,
+				E01DADD41D6E7F9B00AC74C7 /* Download.swift */,
 				D9EF8FC61B53FD2100EFC4B6 /* AppDelegate.swift */,
 				D9EF8FCC1B53FD2100EFC4B6 /* Main.storyboard */,
 				D9EF8FCF1B53FD2100EFC4B6 /* Images.xcassets */,
@@ -169,6 +172,7 @@
 				D9EF8FC71B53FD2100EFC4B6 /* AppDelegate.swift in Sources */,
 				D9EF8FF11B53FDCB00EFC4B6 /* TrackCell.swift in Sources */,
 				D9EF8FF21B53FDCB00EFC4B6 /* Track.swift in Sources */,
+				E01DADD51D6E7F9B00AC74C7 /* Download.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
