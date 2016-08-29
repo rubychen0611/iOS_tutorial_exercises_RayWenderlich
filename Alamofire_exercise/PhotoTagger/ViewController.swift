@@ -127,58 +127,115 @@ extension ViewController {
       print("Could not get JPEG representation of UIImage.")
       return
     }
-    
+    //上传
     Alamofire.upload(.POST, "http://api.imagga.com/v1/content", headers: ["Authorization" : "Basic YWNjXzMxNWE1YjQ4N2E1NWFmMzpkNzczODkxMTlhOTkyNzQxYjBkZmMyMmVkYjM3MzQ4NA=="], multipartFormData: { (multipartFormData) in
       multipartFormData.appendBodyPart(data: imageData, name: "imagefile", fileName: "image.jpg", mimeType: "image/jpeg")
       }) { (encodingResult) in
         switch encodingResult {
+          //上传成功
         case .Success(let upload,_,_):
+          //计算上传进度
           upload.progress({ (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
+            //由于性能原因，在主队列不能调用，需要dispatch到主队列
             dispatch_async(dispatch_get_main_queue(), { 
               let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
               progress(percent: percent)
             })
           })
+          
           upload.validate()
           upload.responseJSON(completionHandler: { (response) in
+            //responseJSON默认下，能在主队列调用
+            //检查response是否成功
             guard response.result.isSuccess else {
               print("Error while uploading file: \(response.result.error)")
               completion(tags: [String](), colors: [PhotoColor]())
               return
             }
-            
+            //检查response的每一个部分，确保类型正确
             guard let responseJSON = response.result.value as? [String : AnyObject],
-              uploadedFiles = responseJSON["uploaded"] as? [AnyObject], firstFile = uploadedFiles.first as? [String : AnyObject], firstFileID = firstFile["id"] as? String else {
+              uploadedFiles = responseJSON["uploaded"] as? [AnyObject],
+              firstFile = uploadedFiles.first as? [String : AnyObject],
+              firstFileID = firstFile["id"] as? String else {
                 print("Invalid information from services.")
                 completion(tags: [String](), colors: [PhotoColor]())
                 return
             }
             print("Content uploaded with ID: \(firstFileID)")
-            completion(tags: [String](), colors: [PhotoColor]())
             
+            //上传完成。将从服务端获得的tags和colors传到completion handler中
+            self.downloadTags(firstFileID, completion: { (tags) in
+              self.downloadColors(firstFileID, completion: { (colors) in
+                 completion(tags: tags, colors: colors)
+              })
+            })
           })
+          //上传失败
         case .Failure(let encodingError):
           print(encodingError)
         }
     }
-    
-  
-    
-    
-    Alamofire.request(.GET, "https://httpbin.org/get", parameters: ["foo" : "bar"]).responseJSON { (response) in
-      print(response.request) //请求对象
-      print(response.response) //响应对象
-      print(response.data) //服务端返回的数据
-      print(response.result) //response serialization的结果
-      
-      if let JSON = response.result.value {
-        print("JSON : \(JSON)")
+  }
+  //获取tags
+  func downloadTags(contentID: String, completion: ([String] -> Void)) {
+    Alamofire.request(.GET, "http://api.imagga.com/v1/tagging", parameters: ["content" : contentID], headers: ["Authorization" : "Basic YWNjXzMxNWE1YjQ4N2E1NWFmMzpkNzczODkxMTlhOTkyNzQxYjBkZmMyMmVkYjM3MzQ4NA=="])
+    .responseJSON { (response) in
+      //检查response是否成功
+      guard response.result.isSuccess else {
+        print("Error while fetching tags: \(response.result.error)")
+        completion([String]())
+        return
       }
+      //检查responseJSON的每个portion，确保类型正确
+      guard let responseJSON = response.result.value as? [String : AnyObject],
+      results = responseJSON["results"] as? [AnyObject],
+      firstResult = results.first,
+        tagsAndConfidences = firstResult["tags"] as? [[String : AnyObject]] else {
+          print("Invalid tag information received from the service.")
+          completion([String]())
+          return
+      }
+      //遍历tagsAndConfidences数组，获取key是“tag”的值
+      let tags = tagsAndConfidences.flatMap({ dict in
+        return dict["tag"] as? String
+      })
+      //把从服务端得到的tags传入completion(_:)中
+      completion(tags)
     }
-    
-    
-    
-    
+  }
+  
+  //获取colors
+  func downloadColors(contentID: String,completion: ([PhotoColor]) -> Void) {
+    Alamofire.request(.GET, "http://api.imagga.com/v1/colors", parameters: ["content": contentID, "extract_object_colors": NSNumber(int: 0)], headers: ["Authorization" : "Basic YWNjXzMxNWE1YjQ4N2E1NWFmMzpkNzczODkxMTlhOTkyNzQxYjBkZmMyMmVkYjM3MzQ4NA=="])
+    .responseJSON { (response) in
+      
+      guard response.result.isSuccess else {
+        print("Error while fetching colors: \(response.result.error)")
+        completion([PhotoColor]())
+        return
+      }
+      guard let responseJSON = response.result.value as? [String : AnyObject],
+      results = responseJSON["results"] as? [AnyObject],
+      firstResult = results.first as? [String : AnyObject],
+      info = firstResult["info"] as? [String : AnyObject],
+        imageColors = info["image_colors"] as? [[String : AnyObject]] else {
+          print("Invalid color information received from service")
+          completion([PhotoColor]())
+          return
+      }
+      //遍历从服务端返回的imageColors，将数据转换为PhotoColor对象。
+      let photoColors = imageColors.flatMap({ (dict) -> PhotoColor? in
+        guard let r = dict["r"] as? String,
+        g = dict["g"] as? String,
+        b = dict["b"] as? String,
+        closestPaletteColor = dict["closest_palette_color"] as? String else {
+            return nil
+        }
+        return PhotoColor(red: Int(r), green: Int(g), blue: Int(b), colorName: closestPaletteColor)
+      })
+      //将photoColors传到completion handler中
+      completion(photoColors)
+    }
   }
 
 }
