@@ -8,6 +8,8 @@
 
 import Foundation
 
+let TopAppURL = "https://itunes.apple.com/us/rss/topgrossingipadapplications/limit=25/json"
+
 public class DataManager {
   
   public class func getTopAppsDataFromFileWithSuccess(success: ((data: NSData) -> Void)) {
@@ -37,5 +39,12 @@ public class DataManager {
     
     loadDataTask.resume()
   }
+    public class func getTopAppsDataFromItunesWithSuccess(success: ((itunesData: NSData!) -> Void)){
+        loadDataFromURL(NSURL(string: TopAppURL)!) { (data, error) in
+            if let data = data {
+                success(itunesData: data)
+            }
+        }
+    }
   
 }
